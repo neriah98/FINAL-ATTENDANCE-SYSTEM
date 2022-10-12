@@ -1,11 +1,12 @@
 from django import forms
-from .models import TeacherInfo
+from .models import LecturerInfo
 from students.models import StudentSession
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-class CreateTeacher(forms.ModelForm):
+
+class CreateLecturer(forms.ModelForm):
     class Meta:
-        model = TeacherInfo
+        model = LecturerInfo
         fields = "__all__"
 
         widgets = {
@@ -13,7 +14,7 @@ class CreateTeacher(forms.ModelForm):
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
             'age': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Age'}),
             'gender': forms.Select(attrs={'class': 'form-control'}),
-            'teacher_img': forms.FileInput(attrs={'class': 'form-control'}),
+            'lecturer_img': forms.FileInput(attrs={'class': 'form-control'}),
             'passing_year': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Passing Year'}),
             'joining_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Joining Date'}),
             'admission_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Admission ID'}),

@@ -1,7 +1,7 @@
 from secrets import choice
 from django.db import models
 from django.contrib.auth.models import User 
-from lecturers.models import TeacherInfo
+from lecturers.models import LecturerInfo
 # Create your models here.
 
 
@@ -25,8 +25,8 @@ class StudentInfo(models.Model):
         ("Enginnering", "Enginnering"),
          ("Law", "Law"),
           ("Humanities", "Humanities"),
-           ("Arts", "Arts"),
-            ("Sciences", "Sciences"),
+           ("Theology", "Theology"),
+            ("NAS", "NAS"),
             ("Health Science", "Health Sciences")
     )
     Faculty = models.CharField( choices=faculty_choice, max_length=100 ,null=True,blank=True )
@@ -38,7 +38,7 @@ class StudentInfo(models.Model):
     gender = models.CharField(choices=gender_choice, max_length=10)
     modules = models.ManyToManyField(StudentModules,related_name="modules", blank=True)
     student_image = models.ImageField(blank=True  ,null=True)
-    approved = models.BooleanField(default=False)
+    approved= models.BooleanField(default=False)
     
     def __str__(self):
         return str(self.full_name)

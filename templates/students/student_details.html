@@ -66,13 +66,13 @@
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
-                 <i class="fa fa-align-justify"></i> Lectures
+                 <i class="fa fa-align-justify"></i> Lecturers
             </div>
             <div class="card-body">
                 <tbody>
                     <tr>
                         {% for i in single_student.modules.all %}
-                            {% with i.teacher_modules.all as lecturers %}
+                            {% with i.lecturer_modules.all as lecturers %}
                                 {% for lecturer in lecturers %}
                                     <td style="font-weight: 500;">  {{ lecturer.full_name }} -- {{lecturer.module.module_name}} </td>
                                     <br>

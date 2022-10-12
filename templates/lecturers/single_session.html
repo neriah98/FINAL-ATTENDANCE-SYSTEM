@@ -11,7 +11,7 @@
         <h5> {{session.session_description }} </h5>
         
         
-        {% with session.module.teacher_modules.all as lecturers %}
+        {% with session.module.lecturer_modules.all as lecturers %}
             {% for i in lecturers %}
         <div class="d-flex">  Lecturer &nbsp;&nbsp; <a href="#"> <strong> {{i.full_name}} </strong>  </a> </div> 
             {% endfor %}

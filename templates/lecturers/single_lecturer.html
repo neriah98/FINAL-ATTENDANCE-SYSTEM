@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid" style="width: 100%;">
+
+<br>
+<div class="row">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-header">
+                 <i class="fa fa-align-justify"></i>  Lecturer Personal Info
+            </div>
+            <div class="card-body">
+                <tbody>
+                    <tr>
+                        <td>Full Name: {{ single_lecturer.full_name }}</td>
+                        <br>
+                        <td>Email: {{ single_lecturer.lecturer_email }}</td>
+                        <br>
+                        <td>Lecturer Cellphone: {{ single_lecturer.lecturer_cellphone}}</td>
+                        <br>
+                        <td>Gender: {{ single_lecturer.gender }}</td>
+                        <br>
+                    </tr>
+                </tbody>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card">
+            <div class="card-header">
+                 <i class="fa fa-align-justify"></i> Lecturer Academic Info
+            </div>
+            <div class="card-body">
+
+                <h6>Faculty: {{ single_lecturer.Faculty }}</h6>
+                <h6>Module: {{ single_lecturer.module.module_name}}</h6>
+             
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-7">
+        <div class="card">
+            <div class="card-header">
+                 <i class="fa fa-align-justify"></i> lecturers Image
+            </div>
+            <div class="card-body">
+                <img src="{{ single_lecturer.lecturer_image.url }}" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+{% endblock %}
+

@@ -1,75 +1,75 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import TeacherInfo
+from .models import LecturerInfo
 from django.contrib.auth.models import User 
-from .forms import CreateTeacher
+from .forms import CreateLecturer
 from django.contrib import messages
 from django.core.paginator import Paginator
 from .forms import SignUpForm , SessionForm
 from django.contrib.auth import login
 from students.models import *
 # Create your views here.
-def teacher_list(request):
-    teachers = TeacherInfo.objects.all()
+def lecturer_list(request):
+    lecturers = LecturerInfo.objects.all()
 
-    paginator = Paginator(teachers, 10)
+    paginator = Paginator(lecturers, 10)
     page = request.GET.get('page')
-    paged_teachers = paginator.get_page(page)
+    paged_lecturers = paginator.get_page(page)
     context = {
-        "teachers": paged_teachers
+        "lecturers": paged_lecturers
     }
-    return render(request, "lecturers/teacher_list.html", context)
+    return render(request, "lecturers/lecturer_list.html", context)
 
 
-def single_teacher(request, teacher_id):
-    single_teacher = get_object_or_404(TeacherInfo, pk=teacher_id)
+def single_lecturer(request, lecturer_id):
+    single_lecturer = get_object_or_404(LecturerInfo, pk=lecturer_id)
   
     context = {
-        "single_teacher": single_teacher,
+        "single_lecturer": single_lecturer,
        
     }
-    return render(request, "lecturers/single_teacher.html", context)
+    return render(request, "lecturers/single_lecturer.html", context)
 
 
-def create_teacher(request):
+def create_lecturer(request):
     if request.method == "POST":
-        forms = CreateTeacher(request.POST, request.FILES or None)
+        forms = CreateLecturer(request.POST, request.FILES or None)
 
         if forms.is_valid():
             forms.save()
-        messages.success(request, "Teacher Registration Successfully!")
-        return redirect("lecturers:teacher_list")
+        messages.success(request, "Lecturer Registration Successfully!")
+        return redirect("lecturers:lecturer_list")
     else:
-        forms = CreateTeacher()
+        forms = CreateLecturer()
 
     context = {
         "forms": forms
     }
-    return render(request, "lecturers/create_teacher.html", context)
+    return render(request, "lecturers/create_lecturer.html", context)
 
 
-def edit_teacher(request, pk):
-    teacher_edit = TeacherInfo.objects.get(id=pk)
-    edit_teacher_forms = CreateTeacher(instance=teacher_edit)
+def edit_lecturer(request, pk):
+    lecturer_edit = LecturerInfo.objects.get(id=pk)
+    edit_lecturer_forms = CreateLecturer(instance=lecturer_edit)
 
     if request.method == "POST":
-        edit_teacher_forms = CreateTeacher(request.POST, request.FILES or None, instance=teacher_edit)
+        edit_lecturer_forms = CreateLecturer(request.POST, request.FILES or None, instance=lecturer_edit)
 
-        if edit_teacher_forms.is_valid():
-            edit_teacher_forms.save()
-            messages.success(request, "Edit Teacher Info Successfully!")
-            return redirect("lecturers:teacher_list")
+        if edit_lecturer_forms.is_valid():
+            edit_lecturer_forms.save()
+            messages.success(request, "Edit Lecturer Info Successfully!")
+            return redirect("lecturers:lecturer_list")
 
     context = {
-        "edit_teacher_forms": edit_teacher_forms
+        "edit_lecturer_forms": edit_lecturer_forms
     }
-    return render(request, "lecturers/edit_teacher.html", context)
+    return render(request, "lecturers/edit_lecturer.html", context)
 
 
-def delete_teacher(request, teacher_id):
-    teacher_delete = TeacherInfo.objects.get(id=teacher_id)
-    teacher_delete.delete()
-    messages.success(request, "Delete Teacher Info Successfully")
-    return redirect("lecturers:teacher_list")
+def delete_lecturer(request, lecturer_id):
+    lecturer_delete = LecturerInfo.objects.get(id=lecturer_id)
+    lecturer_delete.delete()
+    messages.success(request, "Delete Lecturer Info Successfully")
+    return redirect("lecturers:lecturer_list")
 
 
 def register(request):
@@ -86,8 +86,8 @@ def register(request):
             get_id = form.instance.id  # get the id of a use--it has a username inside
             users = User.objects.get(id=get_id) # get the new user
             print(users)
-            studentProfiles = TeacherInfo.objects.create( name = users , teacher_email=users.email,full_name=users.get_full_name())
-            studentProfiles.save()
+            lecturerProfiles = LecturerInfo.objects.create( name = users , lecturer_email=users.email,full_name=users.get_full_name())
+            lecturerProfiles.save()
 
             new_user.save()
           

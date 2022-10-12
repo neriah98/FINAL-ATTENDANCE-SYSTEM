@@ -7,7 +7,7 @@ from lecturers.models import *
 def index(request):
     if request.user.is_authenticated:
         students = StudentInfo.objects.all()
-        teachers=TeacherInfo.objects.all()
+        lecturers=LecturerInfo.objects.all()
         enrolled_students = []
         
         
@@ -18,14 +18,14 @@ def index(request):
            
             
         try:
-            logged_in_as_teacher = TeacherInfo.objects.get(name= request.user)
+            logged_in_as_lecturer = LecturerInfo.objects.get(name= request.user)
         except:
-            logged_in_as_teacher=""
+            logged_in_as_lecturer=""
         
         try:  
             for i in students :
                 
-                if logged_in_as_teacher.module in i.modules.all() :
+                if logged_in_as_lecturer.module in i.modules.all() :
                     enrolled_students.append(i)
         except:
             enrolled_students = []
@@ -34,16 +34,16 @@ def index(request):
             student_sessions = StudentSession.objects.filter(module__in=logged_in_as_student.modules.all()).order_by("-date_added")
             context = {"students":students, 
                    "logged_in_as_student":logged_in_as_student,
-                   "logged_in_as_teacher":logged_in_as_teacher,
-                   "teachers":teachers,
+                   "logged_in_as_lecturer":logged_in_as_lecturer,
+                   "lecturers":lecturers,
                    "enrolled_students":enrolled_students,
                    "student_sessions":student_sessions
                    } 
         else:
             context = {"students":students, 
                     "logged_in_as_student":logged_in_as_student,
-                    "logged_in_as_teacher":logged_in_as_teacher,
-                    "teachers":teachers,
+                    "logged_in_as_lecturer":logged_in_as_lecturer,
+                    "lecturers":lecturers,
                     "enrolled_students":enrolled_students,
                    
                     }
@@ -52,12 +52,12 @@ def index(request):
     
     else:
         logged_in_as_student = ""
-        logged_in_as_teacher = ""
+        logged_in_as_lecturer = ""
         enrolled_students = []
         context = {"students":students,
                    "logged_in_as_student":logged_in_as_student,
-                   "logged_in_as_teacher":logged_in_as_teacher,
-                   "teachers":teachers
+                   "logged_in_as_lecturer":logged_in_as_lecturer,
+                   "lecturers":lecturers
                    }
         return render(request, "home.html", context)
 

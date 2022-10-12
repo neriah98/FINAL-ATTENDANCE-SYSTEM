@@ -12,7 +12,7 @@
     {% if logged_in_as_student in students %}
         {% if logged_in_as_student.approved is True  %}
 
-        <h3> Logged In As Student</h3>
+        <h3> Logged In As Student </h3>
         <hr>
         <div >
 
@@ -21,7 +21,7 @@
             <img style="border: 1px rgba(135, 135, 255, 0.423) solid;" height="100" src="{{logged_in_as_student.student_image.url}}" alt=""> &nbsp;&nbsp;&nbsp;
             {% endif %}
             <div>  
-                <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_student}} </h5> </span> 
+                <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_student.full_name}} </h5> </span> 
                 <span class="d-flex">  Student No. :  <h5> &nbsp;{{logged_in_as_student.name}} </h5> </span>  
                 <span class="d-flex">  Student Email :   <h5> &nbsp;{{logged_in_as_student.student_email}} </h5> </span> 
             </div>
@@ -42,16 +42,17 @@
             <div class="row">
                 {% for i in logged_in_as_student.modules.all %}
                 <div class="col-4">
-                    <div class="card card-body" style="background-color: #6f87ff38; height: 200px;border-left: {% cycle 'red' 'orange' '#008D2F' 'blue' '#E528F2' '#E6E116'  '#009FB8' '#E6E116' %} 4px solid;">
+                    <div class="card card-body" style="background-color: #6f87ff38; height: 200px;border-left: {% cycle 'red' 'orange' '#008D2F' 'blue' '#E528F2' '#E6E116'  '#009FB8' '#E6E116' %} 4px solid">
+            
                         <h5>  <strong> {{i}}</strong> </h5> 
                         <h5>{{i.module_description|truncatechars:60}} </h5>
                         <div class="row">
                             <br>
                             <div class="col"> 
 
-                                {% with i.teacher_modules.all as lecturers %} 
+                                {% with i.lecturer_modules.all as lecturers %} 
                                     {% for lecturer in lecturers %}
-                                      <h6 class="d-flex"> lecture :  <a href="{% url 'lecturers:single_teacher' lecturer.id %}"> {{lecturer.full_name}} </a>  </h6>  
+                                      <h6 class="d-flex"> lecture :  <a href="{% url 'lecturers:single_lecturer' lecturer.id %}"> {{lecturer.full_name}} </a>  </h6>  
                                       {% empty %}
                                        <h6>No Lecturer</h6>
                                     {% endfor %}
@@ -92,20 +93,20 @@
 
 
 <!-- ################### Lecturers Dashboard ####################################-->
-    {% elif logged_in_as_teacher in teachers %}    
-        {% if logged_in_as_teacher.approved is True  %}
+    {% elif logged_in_as_lecturer in lecturers %}    
+        {% if logged_in_as_lecturer.approved is True  %}
     <h3> Logged In As Lecturer</h3>
     <hr>
     <div >
        
-    <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_teacher.full_name}} </h5> </span> 
-   <span class="d-flex">  teacher No. :  <h5> &nbsp;{{logged_in_as_teacher.name}} </h5> </span>  
-     <span class="d-flex">  teacher Email :   <h5> &nbsp;{{logged_in_as_teacher.teacher_email}} </h5> </span> 
+    <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_lecturer.full_name}} </h5> </span> 
+   <span class="d-flex">  Lecturer No. :  <h5> &nbsp;{{logged_in_as_lecturer.name}} </h5> </span>  
+     <span class="d-flex">  Lecturer Email :   <h5> &nbsp;{{logged_in_as_lecturer.lecturer_email}} </h5> </span> 
      <div class="d-flex">   
-        <a href="{% url 'lecturers:edit_teacher' logged_in_as_teacher.id %}"> Edit Details</a> &nbsp;|&nbsp;
-        <a href="{% url 'lecturers:single_teacher' logged_in_as_teacher.id %}"> View All Details</a>
+        <a href="{% url 'lecturers:edit_lecturer' logged_in_as_lecturer.id %}"> Edit Details</a> &nbsp;|&nbsp;
+        <a href="{% url 'lecturers:single_lecturer' logged_in_as_lecturer.id %}"> View All Details</a>
     </div> 
-     {{ logged_in_as_teacher.module}}
+     {{ logged_in_as_lecturer.module}}
      <hr>
 
      <div class="row">
@@ -167,13 +168,13 @@
                     <center>
                         <h1>
                             <strong>
-                                {{teachers.count}}
+                                {{lecturers.count}}
                             </strong>
                         </h1>
                         <p>
                             Total employed lecturers
                         </p>
-                        <a href="{% url 'lecturers:teacher_list' %}">view lecturers</a>
+                        <a href="{% url 'lecturers:lecturer_list' %}">view lecturers</a>
                     </center>
                 </div>
             </div>
@@ -209,13 +210,13 @@
                     <center>
                         <h1>
                             <strong>
-                                {{teachers.count}}
+                                {{lecturers.count}}
                             </strong>
                         </h1>
                         <p>
-                            Total employed lecturers
+                            Total  lecturers
                         </p>
-                        <a href="{% url 'lecturers:teacher_list' %}">view lecturers</a>
+                        <a href="{% url 'lecturers:lecturer_list' %}">view lecturers</a>
                     </center>
                 </div>
             </div>

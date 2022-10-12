@@ -6,7 +6,7 @@ from admins.models import *
 def user_authentication(request):
     if request.user.is_authenticated:
         students = StudentInfo.objects.all()
-        teachers=TeacherInfo.objects.all()
+        lecturers=LecturerInfo.objects.all()
         admins = AdminInfo.objects.all()
         
         try:
@@ -16,9 +16,9 @@ def user_authentication(request):
            
             
         try:
-            logged_in_as_teacher = TeacherInfo.objects.get(name= request.user)
+            logged_in_as_lecturer = LecturerInfo.objects.get(name= request.user)
         except:
-            logged_in_as_teacher=""
+            logged_in_as_lecturer=""
         
         try:
             logged_in_as_admin = AdminInfo.objects.get(name= request.user)
@@ -29,8 +29,8 @@ def user_authentication(request):
         return {
             "students":students, 
             "logged_in_as_student":logged_in_as_student,
-            "logged_in_as_teacher":logged_in_as_teacher,
-            "teachers":teachers,
+            "logged_in_as_lecturer":logged_in_as_lecturer,
+            "lecturers":lecturers,
             "admins":admins,
             "logged_in_as_admin":logged_in_as_admin,
            }
