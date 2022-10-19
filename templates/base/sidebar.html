@@ -9,9 +9,13 @@
             
             <li class="nav-item nav-dropdown">
             
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#">
                             <i class="nav-icon icon-puzzle"></i> Edit Profile</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'students:attendance_count' %}">
+                            <i class="nav-icon icon-puzzle"></i>Attendance Report</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'students:attendance_count' %}">
@@ -68,13 +72,14 @@
                             <a class="nav-link" href="{% url 'students:student_list' %}">
                                 <i class="nav-icon icon-puzzle"></i> Student List</a>
                         </li>
+                         <!-- View attendance report for students enrolled for his module -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'students:attendance_count' %}">
                                 <i class="nav-icon icon-puzzle"></i> Attendance </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="nav-icon icon-puzzle"></i> Add A Session</a>
+                            <a class="nav-link" href="{% url 'lecturers:session' %}">
+                                <i class="nav-icon icon-puzzle"></i> Add Session</a>
                         </li>
                     </ul>
                 </li>

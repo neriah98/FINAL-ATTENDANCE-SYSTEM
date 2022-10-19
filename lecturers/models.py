@@ -33,7 +33,7 @@ class LecturerInfo(models.Model):
             ("NAS", "NAS"),
             ("Health Science", "Health Sciences")
     )
-    module = models.ForeignKey("students.StudentModules", on_delete=models.SET_NULL , null=True , related_name="teacher_modules")
+    module = models.ForeignKey("students.StudentModules", on_delete=models.SET_NULL , null=True , related_name="lecturer_modules")
     Faculty = models.CharField( choices=faculty_choice, max_length=100 ,null=True,blank=True )
     lecturer_image = models.ImageField(blank=True  ,null=True)
     approved= models.BooleanField(default=False)

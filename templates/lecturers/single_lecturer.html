@@ -14,13 +14,13 @@
             <div class="card-body">
                 <tbody>
                     <tr>
-                        <td>Full Name: {{ single_lecturer.full_name }}</td>
+                        <td>Full Name:{{ single_lecturer.full_name }}</td>
                         <br>
                         <td>Email: {{ single_lecturer.lecturer_email }}</td>
                         <br>
-                        <td>Lecturer Cellphone: {{ single_lecturer.lecturer_cellphone}}</td>
+                        <td>Lecturer Contact: {{ single_lecturer.lecturer_cellphone}}</td>
                         <br>
-                        <td>Gender: {{ single_lecturer.gender }}</td>
+                        <!-- <td>Gender:   {{ single_lecturer.gender }}</td> -->
                         <br>
                     </tr>
                 </tbody>
@@ -47,7 +47,7 @@
     <div class="col-lg-7">
         <div class="card">
             <div class="card-header">
-                 <i class="fa fa-align-justify"></i> lecturers Image
+                 <i class="fa fa-align-justify"></i> Lecturer Image
             </div>
             <div class="card-body">
                 <img src="{{ single_lecturer.lecturer_image.url }}" class="img-fluid" />

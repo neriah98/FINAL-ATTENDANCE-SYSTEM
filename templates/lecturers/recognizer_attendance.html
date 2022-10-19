@@ -1,0 +1,33 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include 'partials/_alerts.html' %}
+
+<div class="row">
+    <div class="col-4">
+      
+       <div class="card card-body">
+           <center>   
+        <h5> Attendance Marking Process </h5>   
+        <a href="{% url 'lecturers:recognizer_attendance' %}"> Mark Attendance</a>
+       </center>
+       </div>
+    </div>
+
+
+    <script>
+        $(".recognizer_attendance").click(function () {
+            var postData = { csrfmiddlewaretoken: '{{ csrf_token }}' }
+            $.ajax({
+                url: "{% url 'recognizer_attendance' %}",
+                data: {
+    
+                },
+            });
+        });
+    </script>
+
+
+{% endblock %}

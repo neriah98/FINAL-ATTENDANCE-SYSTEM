@@ -12,7 +12,7 @@
     {% if logged_in_as_student in students %}
         {% if logged_in_as_student.approved is True  %}
 
-        <h3> Logged In As Student </h3>
+        <h3> Logged In As Student : {{logged_in_as_student.full_name}} </h3>
         <hr>
         <div >
 
@@ -21,8 +21,8 @@
             <img style="border: 1px rgba(135, 135, 255, 0.423) solid;" height="100" src="{{logged_in_as_student.student_image.url}}" alt=""> &nbsp;&nbsp;&nbsp;
             {% endif %}
             <div>  
-                <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_student.full_name}} </h5> </span> 
-                <span class="d-flex">  Student No. :  <h5> &nbsp;{{logged_in_as_student.name}} </h5> </span>  
+                <span class="d-flex">  Full Name :  <h5> &nbsp; {{logged_in_as_student.full_name}} </h5> </span> 
+                <span class="d-flex">  Student Number :  <h5> &nbsp;{{logged_in_as_student.student_number}} </h5> </span>  
                 <span class="d-flex">  Student Email :   <h5> &nbsp;{{logged_in_as_student.student_email}} </h5> </span> 
             </div>
 
@@ -38,7 +38,7 @@
         <div class="student-modules" style="background-color:#d4e7ffa6 ;border: 1.5px #afd1fc solid;">
             <br>
             <div class="container" style="width: 95%;">  
-            <h2><strong>Modules</strong></h2>
+            <h2><strong> Enrolled Modules</strong></h2>
             <div class="row">
                 {% for i in logged_in_as_student.modules.all %}
                 <div class="col-4">
@@ -52,7 +52,7 @@
 
                                 {% with i.lecturer_modules.all as lecturers %} 
                                     {% for lecturer in lecturers %}
-                                      <h6 class="d-flex"> lecture :  <a href="{% url 'lecturers:single_lecturer' lecturer.id %}"> {{lecturer.full_name}} </a>  </h6>  
+                                      <h6 class="d-flex"> Lecturer :  <a href="{% url 'lecturers:single_lecturer' lecturer.id %}"> {{lecturer.full_name}} </a>  </h6>  
                                       {% empty %}
                                        <h6>No Lecturer</h6>
                                     {% endfor %}
@@ -85,7 +85,7 @@
 
 
         {% else %}
-            <h3>Waiting for approval from admin</h3>
+            <h3>Waiting for  admin approval</h3>
         {% endif %}
 <!-- ################### End of Student Dashboard ####################################-->
 
@@ -99,7 +99,7 @@
     <hr>
     <div >
        
-    <span class="d-flex">  full Name :  <h5> &nbsp; {{logged_in_as_lecturer.full_name}} </h5> </span> 
+    <span class="d-flex">  Full Name :  <h5> &nbsp; {{logged_in_as_lecturer.full_name}} </h5> </span> 
    <span class="d-flex">  Lecturer No. :  <h5> &nbsp;{{logged_in_as_lecturer.name}} </h5> </span>  
      <span class="d-flex">  Lecturer Email :   <h5> &nbsp;{{logged_in_as_lecturer.lecturer_email}} </h5> </span> 
      <div class="d-flex">   
@@ -116,16 +116,34 @@
                 <center>  
              <h1> {{enrolled_students|length}} </h1>   
              <h5> Total Number Of Students </h5>   
-             <a href="{% url 'students:student_list' %}"> view enrolled students</a>
+             <a href="{% url 'students:student_list' %}"> View enrolled students</a>
             </center>
             </div>
          </div>
-         <div class="col-4">
+         <!-- <div class="col-4">
              <a href="{% url 'lecturers:session' %}"> Create New Session</a>
+        </div> -->
+        <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                     <i class="fa fa-align-justify"></i> Mark Attendance
+                </div>
+                <div class="card-body">
+                    <center>   
+                        <h5>Attendance Marking </h5>   
+                        <a href="{% url 'lecturers:recognizer_attendance' %}"> Take Attendance</a>
+                       </center>
+                </div>
+            </div>
         </div>
+
+
+        <!-- <div class="col-4">
+            <a href="{% url 'lecturers:session' %}"> Mark Attendance</a>
+       </div> -->
      </div>
         {% else %}
-            <h3>Waiting for approval from admin </h3>
+            <h3>Waiting for admin approval </h3>
          {% endif %}
 
 <!-- ################### End of lecturers Dashboard ####################################-->
@@ -180,7 +198,7 @@
             </div>
         </div>
             {% else %}
-                <h3> Waiting for approval from Super Admin</h3>
+                <h3> Waiting for Super Admin approval</h3>
         {% endif %}
 
 

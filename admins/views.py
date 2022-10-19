@@ -71,14 +71,6 @@ def delete_admin(request, admin_id):
     return redirect("home")
 
 
-
-
-
-
-
-
-
-
 def register(request):
  
     if request.method != 'POST':
@@ -97,8 +89,9 @@ def register(request):
             studentProfiles.save()
 
             new_user.save()
-          
-            login(request, new_user)
-            return redirect('home')
+            
+            return redirect("login")
+            # login(request, new_user)
+            # return redirect('home')
     context = {'form': form}
     return render(request, 'admins/registration/register.html', context)

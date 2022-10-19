@@ -41,9 +41,9 @@ def student_regi(request):
             studentProfiles.save()
 
             new_user.save()
-        
-            login(request, new_user)
-            return redirect('home')
+            return redirect("login")
+            # login(request, new_user)
+            # return redirect('home')
             
                 
     context = {'form': form }
@@ -115,8 +115,9 @@ def register(request):
             studentProfiles.save()
 
             new_user.save()
-            login(request, new_user)
-            return redirect('home')
+            return redirect("login")
+            # login(request, new_user)
+            # return redirect('home')
             
     
         context = {'form': form }

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect ,HttpResponse
 from .models import LecturerInfo
 from django.contrib.auth.models import User 
 from .forms import CreateLecturer
@@ -7,6 +7,17 @@ from django.core.paginator import Paginator
 from .forms import SignUpForm , SessionForm
 from django.contrib.auth import login
 from students.models import *
+#For Recognizer
+import cv2
+import numpy as np
+import face_recognition
+import os
+from  datetime import datetime
+import csv
+import pandas as pd
+
+
+from datetime import date
 # Create your views here.
 def lecturer_list(request):
     lecturers = LecturerInfo.objects.all()
@@ -90,9 +101,9 @@ def register(request):
             lecturerProfiles.save()
 
             new_user.save()
-          
-            login(request, new_user)
-            return redirect('home')
+            return redirect("login")
+            # login(request, new_user)
+            # return redirect('home')
     context = {'form': form}
     return render(request, 'lecturers/registration/register.html', context)
 
@@ -115,3 +126,152 @@ def single_session(request, session_id):
     session = StudentSession.objects.get(id=session_id)
     context = {"session":session}
     return render(request,"lecturers/single_session.html",context)
+
+
+
+def recognizer_attendance(request):
+    path = 'media'
+    images = []
+    classNames = []
+    myList = os.listdir(path)
+    print(myList)
+
+    for cl in myList:
+         curImg = cv2.imread(f'{path}/{cl}')
+         images.append(curImg)
+         classNames.append(os.path.splitext(cl)[0])
+         print(classNames)
+
+    
+    def findEncodings(images):
+        encodeList = []
+        for img in images:
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            encode = face_recognition.face_encodings(img)[0]
+            encodeList.append(encode)
+        return encodeList
+
+
+    #  #Creating a csv file
+    # response = HttpResponse(content_type='text/csv')  
+    # response['Content-Disposition'] = 'attachment; filename=attendance.csv'
+
+    # #Create a csv writer
+    # writer = csv.writer(response)
+    def markAttendance(name):
+        with open('lecturers/Attendance.csv','r+') as f:
+            # adding header
+            # headerList = ['Student Number', 'Module' ,'Session Time']
+
+            # f.to_csv('lecturers/Attendance.csv', header=headerList, index=False)
+            # file2 = pd.read_csv("gfg2.csv")
+
+
+            myDataList = f.readlines()
+            nameList=[]
+
+            for line in myDataList:
+                entry = line.split(',')
+                nameList.append(entry[0])
+            if name not in nameList:
+                now = datetime.now()
+                dtString= now.strftime('%H:%M:%S')
+                f.writelines(f'\n{name},{dtString}')
+
+
+    encodeListKnown = findEncodings(images)
+    print('Encoding Complete')
+
+    cap = cv2.VideoCapture(1)
+
+
+    while True:
+        success, img = cap.read()
+        imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+        imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+
+        facesCurFrame = face_recognition.face_locations(imgS)
+        encodesCurrFrame = face_recognition.face_encodings(imgS, facesCurFrame)
+
+        for encodeFace, faceLoc in zip(encodesCurrFrame, facesCurFrame):
+            matches = face_recognition.compare_faces(encodeListKnown, encodeFace)
+            faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
+
+            matchIndex = np.argmin(faceDis)  # this will be our best match
+
+            if matches[matchIndex]:
+                name = classNames[matchIndex].upper()
+                y1, x2, y2, x1 = faceLoc
+                y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
+                cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
+                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                markAttendance(name)
+
+            
+
+        cv2.imshow('webcam',img)
+        cv2.waitKey(1)
+        #return render(request, "lecturers/recognizer_attendance.html")
+        return render(request, "lecturers/attendance_success.html")
+        # return HttpResponse('Attendance Marked Sucessfully')
+
+def attendance_report(request):
+    file = pd.read_csv("gfg.csv")
+    print("\nOriginal file:")
+    print(file)
+
+    # adding header
+    headerList = ['id', 'name', 'profession']
+  
+# converting data frame to csv
+    file.to_csv("gfg2.csv", header=headerList, index=False)
+  
+# display modified csv file
+    file2 = pd.read_csv("gfg2.csv")
+    print('\nModified file:')
+    print(file2)
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
