@@ -13,7 +13,7 @@ import numpy as np
 import face_recognition
 import os
 from  datetime import datetime
-import csv
+
 import pandas as pd
 
 
@@ -186,6 +186,7 @@ def recognizer_attendance(request):
 
 
     while True:
+        i = 0
         success, img = cap.read()
         imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
         imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
@@ -198,6 +199,7 @@ def recognizer_attendance(request):
             faceDis = face_recognition.face_distance(encodeListKnown, encodeFace)
 
             matchIndex = np.argmin(faceDis)  # this will be our best match
+            i = i+1
 
             if matches[matchIndex]:
                 name = classNames[matchIndex].upper()
@@ -205,13 +207,17 @@ def recognizer_attendance(request):
                 y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
                 cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
                 cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-                cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+                cv2.putText(img, name + i.__str__(), (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
                 markAttendance(name)
+            else:
+                cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
+                cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (255, 0, 0), cv2.FILLED)
+
 
             
 
         cv2.imshow('webcam',img)
-        cv2.waitKey(1)
+        cv2.waitKey(0)
         #return render(request, "lecturers/recognizer_attendance.html")
         return render(request, "lecturers/attendance_success.html")
         # return HttpResponse('Attendance Marked Sucessfully')

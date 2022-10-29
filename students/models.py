@@ -69,6 +69,7 @@ class Attendance(models.Model):
     time = models.TimeField(auto_now_add=True , null=True , blank=True)
     
     status = models.BooleanField(default=False)
+    
 
 
     def __str__(self):
